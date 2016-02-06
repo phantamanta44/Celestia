@@ -2,7 +2,9 @@ package io.github.phantamanta44.celestia;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Optional;
 
+import io.github.phantamanta44.celestia.event.ControlPanel;
 import io.github.phantamanta44.celestia.event.DuelManager;
 import io.github.phantamanta44.celestia.event.UtilCommands;
 import io.github.phantamanta44.celestia.event.trivia.TriviaManager;
@@ -48,6 +50,7 @@ public class Discord {
 		registerListener(new UtilCommands());
 		registerListener(new TriviaManager());
 		registerListener(new DuelManager());
+		registerListener(new ControlPanel());
 	}
 	
 	public void registerListener(Object listener) {
@@ -57,6 +60,7 @@ public class Discord {
 	public void onReady(ReadyEvent event) {
 		setServer(CTMain.config.get("server"), CTMain.config.get("channel"));
 		CTMain.logger.info("Login successful! Username: %s, Token: %s", dcClient.getOurUser().getName(), dcClient.getToken());
+		setGame(CTMain.config.get("game"));
 	}
 	
 	public void sendMessage(String msg) {
@@ -86,6 +90,13 @@ public class Discord {
 
 	public IChannel getChannel() {
 		return channel;
+	}
+
+	public void setGame(String gameName) {
+		if (gameName == null || gameName.isEmpty())
+			dcClient.updatePresence(false, Optional.empty());
+		else
+			dcClient.updatePresence(false, Optional.of(gameName));
 	}
 
 }
