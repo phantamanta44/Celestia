@@ -10,8 +10,8 @@ public class CTMain {
 		try {
 			config.read();
 			dcInstance.initApi(config.get("email"), config.get("pass"));
-			dcInstance.setServer(config.get("server"), config.get("channel"));
 			dcInstance.registerListeners();
+			dcInstance.login();
 		} catch (Exception e) {
 			logger.severe("Something went wrong!");
 			e.printStackTrace();

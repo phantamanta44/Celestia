@@ -1,14 +1,14 @@
 package io.github.phantamanta44.celestia;
 
-import java.util.logging.LogManager;
-import java.util.logging.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 public class LogWrapper {
 
-	private final Logger logger;
+	private final Log logger;
 	
 	public LogWrapper(String name) {
-		logger = LogManager.getLogManager().getLogger(name);
+		logger = LogFactory.getLog(name);
 	}
 	
 	public void info(String msg) {
@@ -20,19 +20,19 @@ public class LogWrapper {
 	}
 	
 	public void warn(String msg) {
-		logger.warning(msg);
+		logger.warn(msg);
 	}
 	
 	public void warn(String format, Object... args) {
-		logger.warning(String.format(format, args));
+		logger.warn(String.format(format, args));
 	}
 	
 	public void severe(String msg) {
-		logger.severe(msg);
+		logger.error(msg);
 	}
 	
 	public void severe(String format, Object... args) {
-		logger.severe(String.format(format, args));
+		logger.error(String.format(format, args));
 	}
 	
 }
