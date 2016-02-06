@@ -2,6 +2,11 @@ package io.github.phantamanta44.celestia.event;
 
 import java.util.Random;
 
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+
 import io.github.phantamanta44.celestia.CTMain;
 import io.github.phantamanta44.celestia.util.ChanceList;
 import io.github.phantamanta44.celestia.util.MessageUtils;
@@ -13,6 +18,7 @@ public class UtilCommands {
 	
 	private static final ChanceList<String> slapStrings = new ChanceList<>(
 		"\\*Slaps %s\\*", "\\*Smacks %s with a fish\\*", "\\*Whacks %s\\*", "\\*Wallops %s\\*");
+	private static final String BASH_URL = "http://bash.org/?random";
 
 	@EventSubscriber
 	public void onMessageReceived(MessageReceivedEvent event) {
@@ -25,8 +31,10 @@ public class UtilCommands {
 			if (!slapPerson(msg))
 				CTMain.dcInstance.sendMessage("There's nobody to slap!");
 		}
+		else if(msg.startsWith("!bash"))
+			randomBashQuote(msg);
 	}
-	
+
 	private static void simulateDiceRoll(String msg) {
 		CTMain.logger.info("Received command: %s", msg);
 		int sides = 6;
@@ -47,6 +55,18 @@ public class UtilCommands {
 		Random rand = new Random();
 		CTMain.dcInstance.sendMessage(slapStrings.getAtRandom(rand), user.mention());
 		return true;
+	}
+	
+	private static void randomBashQuote(String msg) {
+		CTMain.logger.info("Received command: %s", msg);
+		try {
+			Document doc = Jsoup.connect(BASH_URL).get();
+			Element qList = doc.getElementsByAttributeValue("valign", "top").get(0);
+			String id = qList.child(0).child(0).child(0).text(), quote = qList.child(1).html().replaceAll("<br>", "\n");
+			CTMain.dcInstance.sendMessage("**Quote %s**\n```%s```", id, StringEscapeUtils.unescapeHtml4(quote));
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 	
 }

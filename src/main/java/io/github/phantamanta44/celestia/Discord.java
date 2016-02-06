@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Optional;
 
 import io.github.phantamanta44.celestia.event.ControlPanel;
+import io.github.phantamanta44.celestia.event.DeletionManager;
 import io.github.phantamanta44.celestia.event.DuelManager;
 import io.github.phantamanta44.celestia.event.UtilCommands;
 import io.github.phantamanta44.celestia.event.trivia.TriviaManager;
@@ -51,6 +52,7 @@ public class Discord {
 		registerListener(new TriviaManager());
 		registerListener(new DuelManager());
 		registerListener(new ControlPanel());
+		registerListener(new DeletionManager());
 	}
 	
 	public void registerListener(Object listener) {
@@ -82,6 +84,10 @@ public class Discord {
 	
 	public IUser getUser(String id) {
 		return server.getUserByID(id);
+	}
+	
+	public IUser getBotUser() {
+		return dcClient.getOurUser();
 	}
 	
 	public IGuild getServer() {

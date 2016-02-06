@@ -44,7 +44,7 @@ public class DuelManager {
 			procCmd(auth, msg, parts);
 		else if (state == DuelState.ACTIVE && (auth.equals(fighterA) || auth.equals(fighterB))) {
 			if (msg.equalsIgnoreCase(target)) {
-				CTMain.dcInstance.sendMessage("%s wins the 1v1!", auth.mention());
+				CTMain.dcInstance.sendMessage("**%s wins the 1v1!**", auth.mention());
 				state = DuelState.INACTIVE;
 				cancelTask.cancel();
 			}
@@ -68,7 +68,7 @@ public class DuelManager {
 		}
 		fighterA = auth;
 		state = DuelState.PREPARING;
-		CTMain.dcInstance.sendMessage("%s and %s\u2014Get ready to battle!", fighterA.mention(), fighterB.mention());
+		CTMain.dcInstance.sendMessage("**%s and %s\u2014Get ready to battle!**", fighterA.mention(), fighterB.mention());
 		Random rand = new Random();
 		taskTimer.schedule(new FightTask(words.getAtRandom(rand)), 3000L + (long)(rand.nextFloat() * 5000F));
 	}
@@ -85,7 +85,7 @@ public class DuelManager {
 		public void run() {
 			state = DuelState.ACTIVE;
 			target = word;
-			CTMain.dcInstance.sendMessage("You have 10 seconds to type \"%s\"!", target);
+			CTMain.dcInstance.sendMessage("**You have 10 seconds to type \"%s\"!**", target);
 			cancelTask = new FightResetTask();
 			taskTimer.schedule(cancelTask, 10000L);
 		}
@@ -97,7 +97,7 @@ public class DuelManager {
 		@Override
 		public void run() {
 			state = DuelState.INACTIVE;
-			CTMain.dcInstance.sendMessage("1v1 cancelled.");
+			CTMain.dcInstance.sendMessage("**1v1 cancelled.**");
 		}
 		
 	}
