@@ -9,13 +9,13 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import io.github.phantamanta44.celestia.CTMain;
+import io.github.phantamanta44.celestia.core.ICTListener;
 import io.github.phantamanta44.celestia.util.ChanceList;
 import io.github.phantamanta44.celestia.util.MessageUtils;
-import sx.blah.discord.handle.EventSubscriber;
 import sx.blah.discord.handle.impl.events.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.IUser;
 
-public class DuelManager {
+public class DuelManager implements ICTListener {
 
 	private static final ChanceList<String> words = new ChanceList<>();
 	
@@ -33,16 +33,13 @@ public class DuelManager {
 		strIn.close();
 	}
 	
-	@EventSubscriber
+	@ListenTo
 	public void onMessageReceived(MessageReceivedEvent event) {
-		if (!event.getMessage().getChannel().equals(CTMain.dcInstance.getChannel()))
+		if (!CTMain.dcInstance.isChannel(event.getMessage()))
 			return;
 		String msg = event.getMessage().getContent();
-		String[] parts = msg.split("\\s");
 		IUser auth = event.getMessage().getAuthor();
-		if (msg.startsWith("!1v1"))
-			procCmd(auth, msg, parts);
-		else if (state == DuelState.ACTIVE && (auth.equals(fighterA) || auth.equals(fighterB))) {
+		if (state == DuelState.ACTIVE && (auth.equals(fighterA) || auth.equals(fighterB))) {
 			if (msg.equalsIgnoreCase(target)) {
 				CTMain.dcInstance.sendMessage("**%s wins the 1v1!**", auth.mention());
 				state = DuelState.INACTIVE;
@@ -51,22 +48,21 @@ public class DuelManager {
 		}
 	}
 	
-	private void procCmd(IUser auth, String msg, String[] parts) {
-		CTMain.logger.info("Received command: %s", msg);
+	public static void procCmd(IUser sender, String[] args) {
 		if (state != DuelState.INACTIVE) {
 			CTMain.dcInstance.sendMessage("There is already a 1v1 in progress!");
 			return;
 		}
-		if (parts.length < 2) {
+		if (args.length < 1) {
 			CTMain.dcInstance.sendMessage("You need to specify someone to 1v1!");
 			return;
 		}
-		fighterB = MessageUtils.parseName(parts);
+		fighterB = MessageUtils.parseName(args);
 		if (fighterB == null) {
 			CTMain.dcInstance.sendMessage("Nobody to 1v1!");
 			return;
 		}
-		fighterA = auth;
+		fighterA = sender;
 		state = DuelState.PREPARING;
 		CTMain.dcInstance.sendMessage("**%s and %s\u2014Get ready to battle!**", fighterA.mention(), fighterB.mention());
 		Random rand = new Random();

@@ -4,17 +4,15 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Optional;
 
-import io.github.phantamanta44.celestia.event.ControlPanel;
-import io.github.phantamanta44.celestia.event.DeletionManager;
-import io.github.phantamanta44.celestia.event.DuelManager;
-import io.github.phantamanta44.celestia.event.UtilCommands;
-import io.github.phantamanta44.celestia.event.trivia.TriviaManager;
+import io.github.phantamanta44.celestia.core.EventDispatcher;
+import io.github.phantamanta44.celestia.core.command.CommandDispatcher;
 import sx.blah.discord.api.ClientBuilder;
 import sx.blah.discord.api.DiscordException;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.ReadyEvent;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IGuild;
+import sx.blah.discord.handle.obj.IMessage;
 import sx.blah.discord.handle.obj.IUser;
 
 public class Discord {
@@ -48,11 +46,8 @@ public class Discord {
 	
 	public void registerListeners() throws IOException {
 		registerListener(this);
-		registerListener(new UtilCommands());
-		registerListener(new TriviaManager());
-		registerListener(new DuelManager());
-		registerListener(new ControlPanel());
-		registerListener(new DeletionManager());
+		registerListener(new EventDispatcher());
+		EventDispatcher.registerHandler(new CommandDispatcher());
 	}
 	
 	public void registerListener(Object listener) {
@@ -96,6 +91,18 @@ public class Discord {
 
 	public IChannel getChannel() {
 		return channel;
+	}
+	
+	public boolean isServer(IGuild guild) {
+		return guild.getID().equalsIgnoreCase(server.getID());
+	}
+	
+	public boolean isChannel(IChannel chan) {
+		return chan.getID().equalsIgnoreCase(channel.getID());
+	}
+	
+	public boolean isChannel(IMessage msg) {
+		return msg.getChannel().getID().equalsIgnoreCase(channel.getID());
 	}
 
 	public void setGame(String gameName) {
