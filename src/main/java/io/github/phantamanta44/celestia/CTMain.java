@@ -7,6 +7,7 @@ import io.github.phantamanta44.celestia.core.command.CommandDuel;
 import io.github.phantamanta44.celestia.core.command.CommandGameSet;
 import io.github.phantamanta44.celestia.core.command.CommandHalt;
 import io.github.phantamanta44.celestia.core.command.CommandHelp;
+import io.github.phantamanta44.celestia.core.command.CommandInfo;
 import io.github.phantamanta44.celestia.core.command.CommandRoll;
 import io.github.phantamanta44.celestia.core.command.CommandSlap;
 import io.github.phantamanta44.celestia.core.command.CommandUnsay;
@@ -45,6 +46,7 @@ public class CTMain {
 		CommandDispatcher.registerCommand(new CommandRoll());
 		CommandDispatcher.registerCommand(new CommandBash());
 		CommandDispatcher.registerCommand(new CommandHelp());
+		CommandDispatcher.registerCommand(new CommandInfo());
 	}
 
 }
