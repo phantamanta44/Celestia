@@ -28,7 +28,7 @@ public class CommandBash implements ICommand {
 
 	@Override
 	public String getDesc() {
-		return "Retrieves a random quote from http://bash.org.";
+		return "Retrieves a quote from http://bash.org.";
 	}
 
 	@Override

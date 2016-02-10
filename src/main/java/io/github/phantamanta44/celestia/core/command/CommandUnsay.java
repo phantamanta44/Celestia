@@ -28,7 +28,7 @@ public class CommandUnsay implements ICommand {
 
 	@Override
 	public String getUsage() {
-		return "unsay [count]";
+		return "unsay [#count]";
 	}
 
 	@Override

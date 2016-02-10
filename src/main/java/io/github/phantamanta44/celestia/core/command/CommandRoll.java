@@ -28,7 +28,7 @@ public class CommandRoll implements ICommand {
 
 	@Override
 	public String getUsage() {
-		return "roll [faces]";
+		return "roll [#faces]";
 	}
 
 	@Override
