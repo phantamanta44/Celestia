@@ -33,7 +33,7 @@ public class CommandBash implements ICommand {
 
 	@Override
 	public String getUsage() {
-		return "bash";
+		return "bash [#quote]";
 	}
 
 	@Override
