@@ -9,6 +9,7 @@ import io.github.phantamanta44.celestia.core.command.CommandDispatcher;
 import sx.blah.discord.api.ClientBuilder;
 import sx.blah.discord.api.DiscordException;
 import sx.blah.discord.api.IDiscordClient;
+import sx.blah.discord.handle.EventSubscriber;
 import sx.blah.discord.handle.impl.events.ReadyEvent;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IGuild;
@@ -54,6 +55,7 @@ public class Discord {
 		dcClient.getDispatcher().registerListener(listener);
 	}
 	
+	@EventSubscriber
 	public void onReady(ReadyEvent event) {
 		setServer(CTMain.config.get("server"), CTMain.config.get("channel"));
 		CTMain.logger.info("Login successful! Username: %s, Token: %s", dcClient.getOurUser().getName(), dcClient.getToken());
@@ -94,15 +96,19 @@ public class Discord {
 	}
 	
 	public boolean isServer(IGuild guild) {
+		if (server == null)
+			return false;
 		return guild.getID().equalsIgnoreCase(server.getID());
 	}
 	
 	public boolean isChannel(IChannel chan) {
+		if (channel == null)
+			return false;
 		return chan.getID().equalsIgnoreCase(channel.getID());
 	}
 	
 	public boolean isChannel(IMessage msg) {
-		return msg.getChannel().getID().equalsIgnoreCase(channel.getID());
+		return isChannel(msg.getChannel());
 	}
 
 	public void setGame(String gameName) {

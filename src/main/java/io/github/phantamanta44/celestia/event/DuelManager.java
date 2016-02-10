@@ -57,7 +57,7 @@ public class DuelManager implements ICTListener {
 			CTMain.dcInstance.sendMessage("You need to specify someone to 1v1!");
 			return;
 		}
-		fighterB = MessageUtils.parseName(args);
+		fighterB = MessageUtils.parseName(args, 0);
 		if (fighterB == null) {
 			CTMain.dcInstance.sendMessage("Nobody to 1v1!");
 			return;

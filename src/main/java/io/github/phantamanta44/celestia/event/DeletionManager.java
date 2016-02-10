@@ -25,7 +25,7 @@ public class DeletionManager implements ICTListener {
 	public static void procCmd(IUser sender, String[] args) {
 		int toDelete = 1;
 		try {
-			toDelete = MathUtils.clamp(Integer.parseInt(args[1]), 1, 10);
+			toDelete = MathUtils.clamp(Integer.parseInt(args[0]), 1, 10);
 		} catch (Exception ex) { }
 		for (int i = 0; i < toDelete; i++) {
 			IMessage td = msgStack.pollLast();

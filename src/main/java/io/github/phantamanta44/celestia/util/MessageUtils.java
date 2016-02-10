@@ -11,17 +11,17 @@ public class MessageUtils {
 	
 	private static final Pattern namePtn = Pattern.compile("<@(\\d*)>");
 
-	public static IUser parseName(String[] parts) {
-		if (parts.length < 1)
+	public static IUser parseName(String[] parts, int index) {
+		if (parts.length < index + 1)
 			return null;
-		Matcher m = namePtn.matcher(parts[1]);
+		Matcher m = namePtn.matcher(parts[index]);
 		if (!m.find())
 			return null;
 		return CTMain.dcInstance.getUser(m.group(1));
 	}
 	
 	public static String concat(String[] parts) {
-		return Arrays.stream(parts).reduce((a, b) -> a.concat(" ").concat(b)).get();
+		return Arrays.stream(parts).reduce((a, b) -> a.concat(" ").concat(b)).orElse("");
 	}
 	
 }

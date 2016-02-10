@@ -17,7 +17,7 @@ public class CommandSlap implements ICommand {
 	
 	@Override
 	public String getName() {
-		return "1v1";
+		return "slap";
 	}
 
 	@Override
@@ -27,17 +27,17 @@ public class CommandSlap implements ICommand {
 
 	@Override
 	public String getDesc() {
-		return "Fights another person in a typing battle.";
+		return "Smacks another person.";
 	}
 
 	@Override
 	public String getUsage() {
-		return "1v1 <@person>";
+		return "slap <@person>";
 	}
 
 	@Override
 	public void execute(IUser sender, String[] args) {
-		IUser user = MessageUtils.parseName(args);
+		IUser user = MessageUtils.parseName(args, 0);
 		if (user == null) {
 			CTMain.dcInstance.sendMessage("There's nobody to slap!");
 			return;
