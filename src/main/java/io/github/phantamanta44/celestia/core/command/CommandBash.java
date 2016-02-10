@@ -14,7 +14,7 @@ import sx.blah.discord.handle.obj.IUser;
 public class CommandBash implements ICommand {
 
 	private static final List<String> ALIASES = Arrays.asList(new String[] {"qdb", "quote", "bashquote", "ircquote"});
-	private static final String BASH_URL = "http://bash.org/?random";
+	private static final String BASH_URL = "http://bash.org/?random", BASH_LOOKUP = "http://bash.org/?quote=";
 		
 	@Override
 	public String getName() {
@@ -39,10 +39,22 @@ public class CommandBash implements ICommand {
 	@Override
 	public void execute(IUser sender, String[] args) {
 		try {
-			Document doc = Jsoup.connect(BASH_URL).get();
+			Document doc;
+			if (args.length > 0) {
+				int qN = Integer.parseInt(args[0]);
+				if (qN < 0)
+					throw new NumberFormatException();
+				doc = Jsoup.connect(BASH_LOOKUP + qN).get();
+			}
+			else
+				doc = Jsoup.connect(BASH_URL).get();
 			Element qList = doc.getElementsByAttributeValue("valign", "top").get(0);
 			String id = qList.child(0).child(0).child(0).text(), quote = qList.child(1).html().replaceAll("<br>", "\n");
 			CTMain.dcInstance.sendMessage("**Quote %s**\n```%s```", id, StringEscapeUtils.unescapeHtml4(quote));
+		} catch (IndexOutOfBoundsException ex) {
+			CTMain.dcInstance.sendMessage("Quote does not exist!");
+		} catch (NumberFormatException ex) {
+			CTMain.dcInstance.sendMessage("Invalid quote number \"%s\"!", args[0]);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
