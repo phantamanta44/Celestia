@@ -32,10 +32,11 @@ public class CommandDispatcher implements ICTListener {
 	}
 	
 	private void processEvent(IUser sender, String msg) {
-		if (!msg.startsWith(CTMain.config.get("prefix")))
+		String pref = CTMain.config.get("prefix");
+		if (!msg.toLowerCase().startsWith(pref.toLowerCase()))
 			return;
-		String[] msgSplit = msg.split("\\s");
-		String cmd = msgSplit[0].substring(1);
+		String[] msgSplit = msg.substring(pref.length()).split("\\s");
+		String cmd = msgSplit[0];
 		String[] args;
 		if (msgSplit.length > 1)
 			args = Arrays.copyOfRange(msgSplit, 1, msgSplit.length);
