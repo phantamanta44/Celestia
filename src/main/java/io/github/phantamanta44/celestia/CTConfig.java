@@ -42,6 +42,10 @@ public class CTConfig {
 		return configKeys.get(key);
 	}
 	
+	public void set(String key, String value) {
+		configKeys.put(key, value);
+	}
+	
 	public Stream<Entry<String, String>> stream() {
 		return configKeys.entrySet().stream();
 	}

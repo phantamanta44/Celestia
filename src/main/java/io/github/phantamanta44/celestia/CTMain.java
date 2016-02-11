@@ -11,6 +11,7 @@ import io.github.phantamanta44.celestia.core.command.CommandHalt;
 import io.github.phantamanta44.celestia.core.command.CommandHelp;
 import io.github.phantamanta44.celestia.core.command.CommandInfo;
 import io.github.phantamanta44.celestia.core.command.CommandKhaled;
+import io.github.phantamanta44.celestia.core.command.CommandPrefix;
 import io.github.phantamanta44.celestia.core.command.CommandRoll;
 import io.github.phantamanta44.celestia.core.command.CommandServer;
 import io.github.phantamanta44.celestia.core.command.CommandSlap;
@@ -51,6 +52,7 @@ public class CTMain {
 		CommandDispatcher.registerCommand(new CommandHelp());
 		CommandDispatcher.registerCommand(new CommandInfo());
 		CommandDispatcher.registerCommand(new CommandKhaled());
+		CommandDispatcher.registerCommand(new CommandPrefix());
 		CommandDispatcher.registerCommand(new CommandRoll());
 		CommandDispatcher.registerCommand(new CommandServer());
 		CommandDispatcher.registerCommand(new CommandSlap());
