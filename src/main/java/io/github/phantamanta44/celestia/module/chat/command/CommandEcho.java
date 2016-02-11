@@ -1,19 +1,20 @@
-package io.github.phantamanta44.celestia.core.command;
+package io.github.phantamanta44.celestia.module.chat.command;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 
 import io.github.phantamanta44.celestia.CTMain;
+import io.github.phantamanta44.celestia.core.ICommand;
+import io.github.phantamanta44.celestia.util.MessageUtils;
 import sx.blah.discord.handle.obj.IUser;
 
-public class CommandRoll implements ICommand {
+public class CommandEcho implements ICommand {
 
-	private static final List<String> ALIASES = Arrays.asList(new String[] {"dice"});
+	private static final List<String> ALIASES = Arrays.asList(new String[] {"say", "print"});
 	
 	@Override
 	public String getName() {
-		return "roll";
+		return "echo";
 	}
 
 	@Override
@@ -23,22 +24,17 @@ public class CommandRoll implements ICommand {
 
 	@Override
 	public String getDesc() {
-		return "Rolls an n-sided fair die.";
+		return "Causes the bot to say something.";
 	}
 
 	@Override
 	public String getUsage() {
-		return "roll [#faces]";
+		return "echo [text]";
 	}
 
 	@Override
 	public void execute(IUser sender, String[] args) {
-		int sides = 6;
-		try {
-			sides = Math.max(Integer.parseInt(args[0]), 2);
-		} catch (Exception ex) { }
-		Random rand = new Random();
-		CTMain.dcInstance.sendMessage("Rolled a D%s: %s", sides, rand.nextInt(sides) + 1);
+		CTMain.dcInstance.sendMessage(MessageUtils.concat(args));
 	}
 
 	@Override

@@ -1,10 +1,11 @@
-package io.github.phantamanta44.celestia.core.command;
+package io.github.phantamanta44.celestia.module.core.command;
 
 import java.util.Arrays;
 import java.util.List;
 
-import io.github.phantamanta44.celestia.event.ControlPanel;
-import io.github.phantamanta44.celestia.event.DeletionManager;
+import io.github.phantamanta44.celestia.CTMain;
+import io.github.phantamanta44.celestia.core.ICommand;
+import io.github.phantamanta44.celestia.module.core.event.DeletionManager;
 import sx.blah.discord.handle.obj.IUser;
 
 public class CommandUnsay implements ICommand {
@@ -38,7 +39,7 @@ public class CommandUnsay implements ICommand {
 
 	@Override
 	public boolean canUseCommand(IUser sender) {
-		return ControlPanel.isAdmin(sender);
+		return CTMain.isAdmin(sender);
 	}
 
 	@Override

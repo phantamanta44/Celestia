@@ -1,16 +1,16 @@
-package io.github.phantamanta44.celestia.core.command;
+package io.github.phantamanta44.celestia.core;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 import io.github.phantamanta44.celestia.CTMain;
-import io.github.phantamanta44.celestia.core.ICTListener;
 import io.github.phantamanta44.celestia.util.MessageUtils;
 import sx.blah.discord.handle.impl.events.MentionEvent;
 import sx.blah.discord.handle.impl.events.MessageReceivedEvent;
@@ -18,9 +18,9 @@ import sx.blah.discord.handle.obj.IUser;
 
 public class CommandDispatcher implements ICTListener {
 	
-	protected static final Map<String, ICommand> cmdMapping = new HashMap<>();
-	protected static final Map<String, ICommand> aliasMapping = new HashMap<>();
-	protected static final Map<String, ICommand> regexMapping = new HashMap<>();
+	protected static final Map<String, ICommand> cmdMapping = new ConcurrentHashMap<>();
+	protected static final Map<String, ICommand> aliasMapping = new ConcurrentHashMap<>();
+	protected static final Map<String, ICommand> regexMapping = new ConcurrentHashMap<>();
 	
 	public static void registerCommand(ICommand cmd) {
 		cmdMapping.put(cmd.getName().toLowerCase(), cmd);
@@ -29,9 +29,20 @@ public class CommandDispatcher implements ICTListener {
 		cmd.getAliases().forEach(a -> aliasMapping.put(a.toLowerCase(), cmd));
 	}
 	
+	public static void unregisterCommand(ICommand cmd) {
+		cmdMapping.remove(cmd.getName().toLowerCase(), cmd);
+		aliasMapping.remove(cmd.getName().toLowerCase(), cmd);
+		regexMapping.remove(cmd.getEnglishInvokation(), cmd);
+		cmd.getAliases().forEach(a -> aliasMapping.remove(a.toLowerCase(), cmd));
+	}
+	
 	public CommandDispatcher() {
 		cmdMapping.clear();
 		aliasMapping.clear();
+	}
+	
+	public static Stream<ICommand> streamCommands() {
+		return cmdMapping.values().stream();
 	}
 
 	@ListenTo

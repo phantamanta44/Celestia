@@ -1,10 +1,11 @@
 package io.github.phantamanta44.celestia.core;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Function;
 
 import io.github.phantamanta44.celestia.CTMain;
@@ -22,9 +23,9 @@ import sx.blah.discord.handle.obj.IMessage;
 @SuppressWarnings("unchecked")
 public class EventDispatcher {
 
-	private static final Map<Class<? extends ICTListener>, HandlerSignature> handlerSigMap = new HashMap<>();
-	private static final List<ICTListener> handlers = new ArrayList<>();
-	private static final Map<Class<? extends Event>, Function<Event, Object>> eventSigFuncs = new HashMap<>();
+	private static final Map<Class<? extends ICTListener>, HandlerSignature> handlerSigMap = new ConcurrentHashMap<>();
+	private static final List<ICTListener> handlers = new CopyOnWriteArrayList<>();
+	private static final Map<Class<? extends Event>, Function<Event, Object>> eventSigFuncs = new ConcurrentHashMap<>();
 	
 	static {
 		eventSigFuncs.put(MentionEvent.class, e -> ((MentionEvent)e).getMessage());
@@ -38,6 +39,10 @@ public class EventDispatcher {
 		Class<? extends ICTListener> handlerClass = handler.getClass();
 		if (!handlerSigMap.containsKey(handlerClass))
 			handlerSigMap.put(handlerClass, new HandlerSignature(handlerClass));
+	}
+	
+	public static void unregisterHandler(ICTListener handler) {
+		handlers.remove(handler);
 	}
 	
 	@EventSubscriber

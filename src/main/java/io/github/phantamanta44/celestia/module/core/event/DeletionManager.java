@@ -1,4 +1,4 @@
-package io.github.phantamanta44.celestia.event;
+package io.github.phantamanta44.celestia.module.core.event;
 
 import java.util.ArrayDeque;
 import java.util.Deque;

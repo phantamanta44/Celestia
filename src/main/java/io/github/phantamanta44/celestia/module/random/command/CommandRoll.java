@@ -1,49 +1,52 @@
-package io.github.phantamanta44.celestia.core.command;
+package io.github.phantamanta44.celestia.module.random.command;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 import io.github.phantamanta44.celestia.CTMain;
+import io.github.phantamanta44.celestia.core.ICommand;
 import sx.blah.discord.handle.obj.IUser;
 
-public class CommandHelp implements ICommand {
-	
-	private static final List<String> ALIASES = Arrays.asList(new String[] {"?", "helpme"});
+public class CommandRoll implements ICommand {
 
+	private static final List<String> ALIASES = Arrays.asList(new String[] {"dice"});
+	
 	@Override
 	public String getName() {
-		return "help";
+		return "roll";
 	}
-	
+
 	@Override
 	public List<String> getAliases() {
 		return ALIASES;
 	}
-	
+
 	@Override
 	public String getDesc() {
-		return "Lists usable commands.";
+		return "Rolls an n-sided fair die.";
 	}
 
 	@Override
 	public String getUsage() {
-		return "help";
+		return "roll [#faces]";
 	}
 
 	@Override
 	public void execute(IUser sender, String[] args) {
-		String helpText = CommandDispatcher.cmdMapping.values().stream()
-			.map(c -> String.format("%s%s - %s", CTMain.config.get("prefix"), c.getUsage(), c.getDesc()))
-			.sorted()
-			.reduce((a, b) -> a.concat("\n").concat(b)).get();
-		CTMain.dcInstance.sendMessage("**Command list:**\n```%s```", helpText);
+		int sides = 6;
+		try {
+			sides = Math.max(Integer.parseInt(args[0]), 2);
+		} catch (Exception ex) { }
+		Random rand = new Random();
+		CTMain.dcInstance.sendMessage("Rolled a D%s: %s", sides, rand.nextInt(sides) + 1);
 	}
 
 	@Override
 	public boolean canUseCommand(IUser sender) {
 		return true;
 	}
-	
+
 	@Override
 	public String getPermissionMessage(IUser sender) {
 		throw new IllegalStateException();

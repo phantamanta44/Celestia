@@ -1,4 +1,4 @@
-package io.github.phantamanta44.celestia.core.command;
+package io.github.phantamanta44.celestia.module.random.command;
 
 import java.util.Arrays;
 import java.util.List;
@@ -9,6 +9,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import io.github.phantamanta44.celestia.CTMain;
+import io.github.phantamanta44.celestia.core.ICommand;
 import sx.blah.discord.handle.obj.IUser;
 
 public class CommandBash implements ICommand {

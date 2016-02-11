@@ -1,9 +1,10 @@
-package io.github.phantamanta44.celestia.core.command;
+package io.github.phantamanta44.celestia.module.random.command;
 
 import java.util.Arrays;
 import java.util.List;
 
-import io.github.phantamanta44.celestia.event.DuelManager;
+import io.github.phantamanta44.celestia.core.ICommand;
+import io.github.phantamanta44.celestia.module.random.event.DuelManager;
 import sx.blah.discord.handle.obj.IUser;
 
 public class CommandDuel implements ICommand {

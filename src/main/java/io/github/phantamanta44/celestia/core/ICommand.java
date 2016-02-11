@@ -1,4 +1,4 @@
-package io.github.phantamanta44.celestia.core.command;
+package io.github.phantamanta44.celestia.core;
 
 import java.util.List;
 

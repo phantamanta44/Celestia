@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Optional;
 
+import io.github.phantamanta44.celestia.core.CommandDispatcher;
 import io.github.phantamanta44.celestia.core.EventDispatcher;
-import io.github.phantamanta44.celestia.core.command.CommandDispatcher;
 import sx.blah.discord.api.ClientBuilder;
 import sx.blah.discord.api.DiscordException;
 import sx.blah.discord.api.IDiscordClient;

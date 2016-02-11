@@ -1,4 +1,4 @@
-package io.github.phantamanta44.celestia.core.command;
+package io.github.phantamanta44.celestia.module.core.command;
 
 import java.lang.management.ManagementFactory;
 import java.util.AbstractMap.SimpleEntry;
@@ -9,6 +9,7 @@ import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
 
 import io.github.phantamanta44.celestia.CTMain;
+import io.github.phantamanta44.celestia.core.ICommand;
 import sx.blah.discord.handle.obj.IUser;
 import sx.blah.discord.util.Lambdas;
 

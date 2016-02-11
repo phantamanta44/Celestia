@@ -1,9 +1,8 @@
-package io.github.phantamanta44.celestia.event;
+package io.github.phantamanta44.celestia.module.random.event;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.io.IOException;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -25,12 +24,16 @@ public class DuelManager implements ICTListener {
 	private static String target;
 	private static TimerTask cancelTask;
 	
-	public DuelManager() throws IOException {
-		BufferedReader strIn = new BufferedReader(new FileReader(new File("duel.txt")));
-		String line;
-		while ((line = strIn.readLine()) != null)
-			words.addOutcome(line);
-		strIn.close();
+	public DuelManager() {
+		try {
+			BufferedReader strIn = new BufferedReader(new FileReader(new File("duel.txt")));
+			String line;
+			while ((line = strIn.readLine()) != null)
+				words.addOutcome(line);
+			strIn.close();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 	
 	@ListenTo

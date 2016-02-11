@@ -1,10 +1,11 @@
-package io.github.phantamanta44.celestia.core.command;
+package io.github.phantamanta44.celestia.module.random.command;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
 import io.github.phantamanta44.celestia.CTMain;
+import io.github.phantamanta44.celestia.core.ICommand;
 import io.github.phantamanta44.celestia.util.ChanceList;
 import sx.blah.discord.handle.obj.IUser;
 

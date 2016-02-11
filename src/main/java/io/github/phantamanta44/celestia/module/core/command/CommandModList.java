@@ -1,16 +1,18 @@
-package io.github.phantamanta44.celestia.core.command;
+package io.github.phantamanta44.celestia.module.core.command;
 
 import java.util.Collections;
 import java.util.List;
 
 import io.github.phantamanta44.celestia.CTMain;
-import io.github.phantamanta44.celestia.event.ControlPanel;
+import io.github.phantamanta44.celestia.core.ICommand;
+import io.github.phantamanta44.celestia.module.ModuleManager;
 import sx.blah.discord.handle.obj.IUser;
-public class CommandChannel implements ICommand {
-	
+
+public class CommandModList implements ICommand {
+
 	@Override
 	public String getName() {
-		return "chchan";
+		return "modlist";
 	}
 
 	@Override
@@ -20,37 +22,31 @@ public class CommandChannel implements ICommand {
 
 	@Override
 	public String getDesc() {
-		return "Changes the bot's channel of residence.";
+		return "Get a list of modules.";
 	}
 
 	@Override
 	public String getUsage() {
-		return "chchan <channel>";
+		return "modlist";
 	}
 
 	@Override
 	public void execute(IUser sender, String[] args) {
-		if (args.length < 1) {
-			CTMain.dcInstance.sendMessage("You need to specify a channel!");
-			return;
-		}
-		try {
-			CTMain.dcInstance.setChannel(args[0]);
-		} catch (IllegalArgumentException ex) {
-			CTMain.dcInstance.sendMessage("No such channel!");
-		}
+		CTMain.dcInstance.sendMessage("**Module List:**\n%s", ModuleManager.streamStatus()
+				.map(entry -> entry.getValue().getValue() ? String.format("**%s**", entry.getKey()) : entry.getKey())
+				.reduce((a, b) -> a.concat(", ").concat(b)).get());
 	}
 
 	@Override
 	public boolean canUseCommand(IUser sender) {
-		return ControlPanel.isAdmin(sender);
+		return CTMain.isAdmin(sender);
 	}
 
 	@Override
 	public String getPermissionMessage(IUser sender) {
 		return "No permission!";
 	}
-	
+
 	@Override
 	public String getEnglishInvokation() {
 		return "";

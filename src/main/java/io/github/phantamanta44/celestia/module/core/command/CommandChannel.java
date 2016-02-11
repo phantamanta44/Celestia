@@ -1,18 +1,17 @@
-package io.github.phantamanta44.celestia.core.command;
+package io.github.phantamanta44.celestia.module.core.command;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 import io.github.phantamanta44.celestia.CTMain;
-import io.github.phantamanta44.celestia.event.ControlPanel;
-import io.github.phantamanta44.celestia.util.MessageUtils;
+import io.github.phantamanta44.celestia.core.ICommand;
 import sx.blah.discord.handle.obj.IUser;
-public class CommandServer implements ICommand {
+
+public class CommandChannel implements ICommand {
 	
 	@Override
 	public String getName() {
-		return "chserv";
+		return "chchan";
 	}
 
 	@Override
@@ -22,30 +21,30 @@ public class CommandServer implements ICommand {
 
 	@Override
 	public String getDesc() {
-		return "Changes the bot's server of residence.";
+		return "Changes the bot's channel of residence.";
 	}
 
 	@Override
 	public String getUsage() {
-		return "chserv <channel> <server>";
+		return "chchan <channel>";
 	}
 
 	@Override
 	public void execute(IUser sender, String[] args) {
-		if (args.length < 2) {
-			CTMain.dcInstance.sendMessage("You need to specify a server and channel!");
+		if (args.length < 1) {
+			CTMain.dcInstance.sendMessage("You need to specify a channel!");
 			return;
 		}
 		try {
-			CTMain.dcInstance.setServer(MessageUtils.concat(Arrays.copyOfRange(args, 1, args.length)), args[0]);
+			CTMain.dcInstance.setChannel(args[0]);
 		} catch (IllegalArgumentException ex) {
-			CTMain.dcInstance.sendMessage("No such server or channel!");
+			CTMain.dcInstance.sendMessage("No such channel!");
 		}
 	}
 
 	@Override
 	public boolean canUseCommand(IUser sender) {
-		return ControlPanel.isAdmin(sender);
+		return CTMain.isAdmin(sender);
 	}
 
 	@Override

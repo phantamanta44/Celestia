@@ -1,10 +1,10 @@
-package io.github.phantamanta44.celestia.core.command;
+package io.github.phantamanta44.celestia.module.core.command;
 
 import java.util.Collections;
 import java.util.List;
 
 import io.github.phantamanta44.celestia.CTMain;
-import io.github.phantamanta44.celestia.event.ControlPanel;
+import io.github.phantamanta44.celestia.core.ICommand;
 import io.github.phantamanta44.celestia.util.MessageUtils;
 import sx.blah.discord.handle.obj.IUser;
 
@@ -45,7 +45,7 @@ public class CommandPrefix implements ICommand {
 
 	@Override
 	public boolean canUseCommand(IUser sender) {
-		return ControlPanel.isAdmin(sender);
+		return CTMain.isAdmin(sender);
 	}
 
 	@Override

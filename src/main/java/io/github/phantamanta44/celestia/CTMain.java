@@ -1,24 +1,17 @@
 package io.github.phantamanta44.celestia;
 
-import io.github.phantamanta44.celestia.core.EventDispatcher;
-import io.github.phantamanta44.celestia.core.command.CommandBash;
-import io.github.phantamanta44.celestia.core.command.CommandChannel;
-import io.github.phantamanta44.celestia.core.command.CommandDispatcher;
-import io.github.phantamanta44.celestia.core.command.CommandDuel;
-import io.github.phantamanta44.celestia.core.command.CommandEcho;
-import io.github.phantamanta44.celestia.core.command.CommandGameSet;
-import io.github.phantamanta44.celestia.core.command.CommandHalt;
-import io.github.phantamanta44.celestia.core.command.CommandHelp;
-import io.github.phantamanta44.celestia.core.command.CommandInfo;
-import io.github.phantamanta44.celestia.core.command.CommandKhaled;
-import io.github.phantamanta44.celestia.core.command.CommandPrefix;
-import io.github.phantamanta44.celestia.core.command.CommandRoll;
-import io.github.phantamanta44.celestia.core.command.CommandServer;
-import io.github.phantamanta44.celestia.core.command.CommandSlap;
-import io.github.phantamanta44.celestia.core.command.CommandUnsay;
-import io.github.phantamanta44.celestia.event.ControlPanel;
-import io.github.phantamanta44.celestia.event.DeletionManager;
-import io.github.phantamanta44.celestia.event.DuelManager;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
+
+import io.github.phantamanta44.celestia.module.ModuleManager;
+import io.github.phantamanta44.celestia.module.chat.ChatModule;
+import io.github.phantamanta44.celestia.module.core.CoreModule;
+import io.github.phantamanta44.celestia.module.random.RandomModule;
+import sx.blah.discord.handle.obj.IUser;
 
 public class CTMain {
 	
@@ -26,13 +19,15 @@ public class CTMain {
 	public static final LogWrapper logger = new LogWrapper("CT");
 	public static final CTConfig config = new CTConfig("celestia.conf");
 	
+	private static final Set<String> controllers = new HashSet<>();
+	
 	public static void main(String[] args) {
 		try {
 			config.read();
-			new ControlPanel(); // TODO move this elsewhere
+			getAdmins();
 			dcInstance.initApi(config.get("email"), config.get("pass"));
 			dcInstance.registerListeners();
-			registerListeners();
+			registerModules();
 			dcInstance.login();
 		} catch (Exception e) {
 			logger.severe("Something went wrong!");
@@ -40,23 +35,27 @@ public class CTMain {
 		}
 	}
 	
-	private static void registerListeners() throws Exception {
-		EventDispatcher.registerHandler(new DeletionManager());
-		EventDispatcher.registerHandler(new DuelManager());
-		CommandDispatcher.registerCommand(new CommandBash());
-		CommandDispatcher.registerCommand(new CommandChannel());
-		CommandDispatcher.registerCommand(new CommandDuel());
-		CommandDispatcher.registerCommand(new CommandEcho());
-		CommandDispatcher.registerCommand(new CommandGameSet());
-		CommandDispatcher.registerCommand(new CommandHalt());
-		CommandDispatcher.registerCommand(new CommandHelp());
-		CommandDispatcher.registerCommand(new CommandInfo());
-		CommandDispatcher.registerCommand(new CommandKhaled());
-		CommandDispatcher.registerCommand(new CommandPrefix());
-		CommandDispatcher.registerCommand(new CommandRoll());
-		CommandDispatcher.registerCommand(new CommandServer());
-		CommandDispatcher.registerCommand(new CommandSlap());
-		CommandDispatcher.registerCommand(new CommandUnsay());
+	private static void registerModules() {
+		new CoreModule().onEnable();
+		ModuleManager.registerModule(new RandomModule(), confIsTrue("mod.random"));
+		ModuleManager.registerModule(new ChatModule(), confIsTrue("mod.chat"));
+	}
+	
+	private static boolean confIsTrue(String key) {
+		String val = config.get(key);
+		return val == null ? false : val.equalsIgnoreCase("true");
+	}
+	
+	private static void getAdmins() throws IOException {
+		BufferedReader strIn = new BufferedReader(new FileReader(new File("admins.txt")));
+		String line;
+		while ((line = strIn.readLine()) != null)
+			controllers.add(line);
+		strIn.close();
+	}
+	
+	public static boolean isAdmin(IUser user) {
+		return controllers.contains(user.getName());
 	}
 
 }
