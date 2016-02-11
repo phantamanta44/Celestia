@@ -72,7 +72,7 @@ public class CommandBash implements ICommand {
 	
 	@Override
 	public String getEnglishInvokation() {
-		return ".*(?:get(?: me)?|retrieve)(?: an?| the)? (?:random )?(?:bash |irc |qdb )?quote(?: (?:number |#)?(?<a0>\\d*))?.*";
+		return ".*(?:get(?: me)?|retrieve)(?: an?| the)? (?:random )?(?:bash |irc |qdb )?quote(?: (?:number |#)?(?<a0>\\d{1,}))?.*";
 	}
 
 }
