@@ -20,4 +20,6 @@ public interface ICommand {
 	
 	public String getPermissionMessage(IUser sender);
 	
+	public String getEnglishInvokation();
+	
 }

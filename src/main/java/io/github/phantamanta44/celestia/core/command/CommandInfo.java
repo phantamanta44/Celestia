@@ -80,5 +80,10 @@ public class CommandInfo implements ICommand {
 
 		return String.format("%s Days, %s Hours, %s Minutes, %s Seconds", days, hours, minutes, seconds);
 	}
+	
+	@Override
+	public String getEnglishInvokation() {
+		return "";
+	}
 
 }

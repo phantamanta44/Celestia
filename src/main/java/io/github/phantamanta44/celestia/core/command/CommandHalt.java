@@ -44,5 +44,10 @@ public class CommandHalt implements ICommand {
 	public String getPermissionMessage(IUser sender) {
 		return "No permission!";
 	}
+	
+	@Override
+	public String getEnglishInvokation() {
+		return "";
+	}
 
 }

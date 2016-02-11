@@ -50,5 +50,10 @@ public class CommandRoll implements ICommand {
 	public String getPermissionMessage(IUser sender) {
 		throw new IllegalStateException();
 	}
+	
+	@Override
+	public String getEnglishInvokation() {
+		return "";
+	}
 
 }

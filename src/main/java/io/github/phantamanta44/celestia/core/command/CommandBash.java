@@ -69,5 +69,10 @@ public class CommandBash implements ICommand {
 	public String getPermissionMessage(IUser sender) {
 		throw new IllegalStateException();
 	}
+	
+	@Override
+	public String getEnglishInvokation() {
+		return ".*(?:get(?: me)?|retrieve)(?: an?| the)? (?:random )?(?:bash |irc |qdb )?quote(?: (?:number |#)?(?<a0>\\d*))?.*";
+	}
 
 }

@@ -1,10 +1,12 @@
 package io.github.phantamanta44.celestia.core.command;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 import io.github.phantamanta44.celestia.CTMain;
 import io.github.phantamanta44.celestia.event.ControlPanel;
+import io.github.phantamanta44.celestia.util.MessageUtils;
 import sx.blah.discord.handle.obj.IUser;
 public class CommandServer implements ICommand {
 	
@@ -25,7 +27,7 @@ public class CommandServer implements ICommand {
 
 	@Override
 	public String getUsage() {
-		return "chserv <server> <channel>";
+		return "chserv <channel> <server>";
 	}
 
 	@Override
@@ -35,7 +37,7 @@ public class CommandServer implements ICommand {
 			return;
 		}
 		try {
-			CTMain.dcInstance.setServer(args[0], args[1]);
+			CTMain.dcInstance.setServer(MessageUtils.concat(Arrays.copyOfRange(args, 1, args.length)), args[0]);
 		} catch (IllegalArgumentException ex) {
 			CTMain.dcInstance.sendMessage("No such server or channel!");
 		}
@@ -49,6 +51,11 @@ public class CommandServer implements ICommand {
 	@Override
 	public String getPermissionMessage(IUser sender) {
 		return "No permission!";
+	}
+	
+	@Override
+	public String getEnglishInvokation() {
+		return "";
 	}
 
 }
