@@ -37,12 +37,22 @@ public class Discord {
 	}
 	
 	public void setServer(String servName, String chanName) throws IllegalArgumentException {
-		server = dcClient.getGuilds().stream()
-			.filter(s -> s.getName().equalsIgnoreCase(servName))
-			.findFirst().orElseThrow(() -> new IllegalArgumentException("Server does not exist!"));
+		IGuild tGuild;
+		IChannel tChan; 
+		tGuild = dcClient.getGuilds().stream()
+				.filter(s -> s.getName().equalsIgnoreCase(servName))
+				.findFirst().orElseThrow(() -> new IllegalArgumentException("Server does not exist!"));
+		tChan = tGuild.getChannels().stream()
+				.filter(s -> s.getName().equalsIgnoreCase(chanName))
+				.findFirst().orElseThrow(() -> new IllegalArgumentException("Channel does not exist!"));
+		server = tGuild;
+		channel = tChan;
+	}
+	
+	public void setChannel(String chanName) throws IllegalArgumentException {
 		channel = server.getChannels().stream()
-			.filter(s -> s.getName().equalsIgnoreCase(chanName))
-			.findFirst().orElseThrow(() -> new IllegalArgumentException("Channel does not exist!"));
+				.filter(s -> s.getName().equalsIgnoreCase(chanName))
+				.findFirst().orElseThrow(() -> new IllegalArgumentException("Channel does not exist!"));
 	}
 	
 	public void registerListeners() throws IOException {
