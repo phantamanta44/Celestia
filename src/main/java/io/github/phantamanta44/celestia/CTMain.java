@@ -11,6 +11,7 @@ import io.github.phantamanta44.celestia.module.ModuleManager;
 import io.github.phantamanta44.celestia.module.chat.ChatModule;
 import io.github.phantamanta44.celestia.module.core.CoreModule;
 import io.github.phantamanta44.celestia.module.random.RandomModule;
+import io.github.phantamanta44.celestia.module.scripting.ScriptingModule;
 import sx.blah.discord.handle.obj.IUser;
 
 public class CTMain {
@@ -39,6 +40,7 @@ public class CTMain {
 		new CoreModule().onEnable();
 		ModuleManager.registerModule(new RandomModule(), confIsTrue("mod.random"));
 		ModuleManager.registerModule(new ChatModule(), confIsTrue("mod.chat"));
+		ModuleManager.registerModule(new ScriptingModule(), confIsTrue("mod.scripting"));
 	}
 	
 	private static boolean confIsTrue(String key) {

@@ -25,14 +25,16 @@ public class CommandDispatcher implements ICTListener {
 	public static void registerCommand(ICommand cmd) {
 		cmdMapping.put(cmd.getName().toLowerCase(), cmd);
 		aliasMapping.put(cmd.getName().toLowerCase(), cmd);
-		regexMapping.put(cmd.getEnglishInvokation(), cmd);
+		if (!cmd.getEnglishInvokation().isEmpty())
+			regexMapping.put(cmd.getEnglishInvokation(), cmd);
 		cmd.getAliases().forEach(a -> aliasMapping.put(a.toLowerCase(), cmd));
 	}
 	
 	public static void unregisterCommand(ICommand cmd) {
 		cmdMapping.remove(cmd.getName().toLowerCase(), cmd);
 		aliasMapping.remove(cmd.getName().toLowerCase(), cmd);
-		regexMapping.remove(cmd.getEnglishInvokation(), cmd);
+		if (!cmd.getEnglishInvokation().isEmpty())
+			regexMapping.remove(cmd.getEnglishInvokation(), cmd);
 		cmd.getAliases().forEach(a -> aliasMapping.remove(a.toLowerCase(), cmd));
 	}
 	

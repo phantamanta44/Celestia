@@ -39,7 +39,7 @@ public class CommandPrefix implements ICommand {
 		String pref = MessageUtils.concat(args);
 		if ((pref.startsWith("'") && pref.endsWith("'"))
 				|| (pref.startsWith("\"") && pref.endsWith("\"")))
-			pref = pref.substring(1, pref.length() - 2);
+			pref = pref.substring(1, pref.length() - 1);
 		CTMain.config.set("prefix", pref);
 	}
 
